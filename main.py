@@ -1,8 +1,3 @@
-#!/usr/bin/env python3
-"""
-Скрипт для обучения модели Маркова на PostgreSQL
-"""
-
 from markov_model import MarkovModel
 import os
 import sys
@@ -16,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 def check_postgresql_connection():
-    """Проверка подключения к PostgreSQL"""
+    #Проверка подключения к PostgreSQL
     try:
         import psycopg2
         from dotenv import load_dotenv
