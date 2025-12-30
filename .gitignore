@@ -1,0 +1,21 @@
+# Данные
+*.db
+*.sqlite
+data/
+*.txt
+*.csv
+
+# Питон
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
