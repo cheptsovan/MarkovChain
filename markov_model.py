@@ -14,14 +14,6 @@ class MarkovModel:
         self.processor = TextProcessor()
 
     def train_from_file(self, file_path, max_order=13, use_bulk_insert=False):
-        """
-        Обучение модели на текстовом файле
-
-        Args:
-            file_path: путь к текстовому файлу
-            max_order: максимальный порядок модели Маркова (1-13)
-            use_bulk_insert: использовать быструю bulk-вставку (требует больше памяти)
-        """
         logger.info(f"Чтение файла {file_path}...")
 
         # Чтение файла с обработкой кодировки
@@ -97,15 +89,6 @@ class MarkovModel:
             logger.info(f"  Порядок {n}: {count:,} записей")
 
     def get_probabilities(self, context):
-        """
-        Получение вероятностей следующего символа для заданного контекста
-
-        Args:
-            context: строка с предыдущими символами (длина от 1 до 13)
-
-        Returns:
-            dict: словарь вероятностей символов
-        """
         n = len(context)
         if n == 0 or n > 13:
             return {}
@@ -113,16 +96,8 @@ class MarkovModel:
         return self.db.get_markov_probabilities(n, context)
 
     def generate_text(self, seed, length=100):
-        """
-        Генерация текста на основе обученной модели
+        #Генерация текста на основе обученной модели
 
-        Args:
-            seed: начальная последовательность символов
-            length: длина генерируемого текста
-
-        Returns:
-            str: сгенерированный текст
-        """
         if not self.db.conn:
             self.db.connect()
 
@@ -160,7 +135,7 @@ class MarkovModel:
         return result
 
     def analyze_contexts(self):
-        """Анализ количества контекстов разных порядков"""
+        #Анализ количества контекстов разных порядков
         if not self.db.conn:
             self.db.connect()
 
@@ -175,5 +150,4 @@ class MarkovModel:
             print(f"{n:7d} | {count:20,}")
 
     def close(self):
-        """Закрытие соединения с базой данных"""
         self.db.close()
