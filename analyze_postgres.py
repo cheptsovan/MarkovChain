@@ -1,8 +1,3 @@
-#!/usr/bin/env python3
-"""
-Анализ результатов модели Маркова в PostgreSQL
-"""
-
 import psycopg2
 import matplotlib.pyplot as plt
 import numpy as np
@@ -13,7 +8,7 @@ load_dotenv()
 
 
 def connect_db():
-    """Подключение к PostgreSQL"""
+    #Подключение к PostgreSQL
     conn = psycopg2.connect(
         dbname=os.getenv('DB_NAME', 'markov_chain'),
         user=os.getenv('DB_USER', 'postgres'),
@@ -25,10 +20,10 @@ def connect_db():
 
 
 def analyze_overall_frequencies(conn):
-    """Анализ общих частот"""
+    #Анализ общих частот
     cursor = conn.cursor()
 
-    print("=== ОБЩИЕ ЧАСТОТЫ СИМВОЛОВ ===")
+    print("ОБЩИЕ ЧАСТОТЫ СИМВОЛОВ")
 
     # Топ-20 символов
     cursor.execute('''
@@ -55,10 +50,10 @@ def analyze_overall_frequencies(conn):
 
 
 def analyze_markov_orders(conn):
-    """Анализ разных порядков модели"""
+    #Анализ разных порядков модели
     cursor = conn.cursor()
 
-    print("\n=== СРАВНЕНИЕ ПОРЯДКОВ МОДЕЛИ ===")
+    print("\nСРАВНЕНИЕ ПОРЯДКОВ МОДЕЛИ")
 
     orders = []
     context_counts = []
@@ -107,10 +102,10 @@ def analyze_markov_orders(conn):
 
 
 def analyze_specific_contexts(conn):
-    """Анализ конкретных контекстов"""
+    #Анализ конкретных контекстов
     cursor = conn.cursor()
 
-    print("\n=== ПРИМЕРЫ УСЛОВНЫХ ВЕРОЯТНОСТЕЙ ===")
+    print("\nПРИМЕРЫ УСЛОВНЫХ ВЕРОЯТНОСТЕЙ")
 
     test_cases = [
         (1, ' ', 'пробел'),
@@ -144,7 +139,7 @@ def analyze_specific_contexts(conn):
 
 
 def calculate_entropy(conn, n):
-    """Расчет энтропии для порядка n"""
+    #Расчет энтропии для порядка n
     cursor = conn.cursor()
 
     cursor.execute(f'''
@@ -186,7 +181,7 @@ def main():
 
     try:
         conn = connect_db()
-        print("✓ Подключение к PostgreSQL установлено\n")
+        print("Подключение к PostgreSQL установлено\n")
 
         # 1. Общие частоты
         analyze_overall_frequencies(conn)
@@ -198,7 +193,7 @@ def main():
         analyze_specific_contexts(conn)
 
         # 4. Энтропия (опционально)
-        print("\n=== РАСЧЕТ ЭНТРОПИИ ===")
+        print("\nРАСЧЕТ ЭНТРОПИИ")
         for n in [1, 2, 3, 5, 7, 10]:
             entropy = calculate_entropy(conn, n)
             print(f"Средняя энтропия для порядка {n}: {entropy:.4f} бит")
