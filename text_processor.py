@@ -8,7 +8,7 @@ class TextProcessor:
 
     @staticmethod
     def normalize_text(text):
-        """Нормализация текста: приведение к нижнему регистру и фильтрация символов"""
+        #Нормализация текста: приведение к нижнему регистру и фильтрация символов
         # Приводим к нижнему регистру
         text = text.lower()
 
@@ -21,7 +21,7 @@ class TextProcessor:
 
     @staticmethod
     def count_overall_frequencies(text):
-        """Подсчет общих частот символов"""
+        #Подсчет общих частот символов
         frequencies = defaultdict(int)
         for char in text:
             if char in TextProcessor.ALLOWED_CHARS:
@@ -30,17 +30,8 @@ class TextProcessor:
 
     @staticmethod
     def count_markov_frequencies(text, n):
-        """
-        Подсчет частот для модели Маркова порядка n
+        #Подсчет частот для модели Маркова порядка n
 
-        Args:
-            text: нормализованный текст
-            n: количество предыдущих символов (от 1 до 13)
-
-        Returns:
-            dict: словарь, где ключ - контекст (n символов),
-                  значение - словарь частот следующих символов
-        """
         frequencies = defaultdict(lambda: defaultdict(int))
 
         # Проходим по тексту, рассматривая все последовательности длины n+1
