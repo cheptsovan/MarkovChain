@@ -24,7 +24,7 @@ class MarkovDatabase:
         }
 
     def connect(self):
-        """Создание подключения к базе данных PostgreSQL"""
+        #Создание подключения к базе данных PostgreSQL
         try:
             self.conn = psycopg2.connect(**self.db_params)
             self.conn.autocommit = False
@@ -35,7 +35,7 @@ class MarkovDatabase:
             raise
 
     def create_tables(self):
-        """Создание таблиц для хранения частот"""
+        #Создание таблиц для хранения частот
         try:
             # Таблица для общих частот символов
             self.cursor.execute('''
@@ -71,7 +71,7 @@ class MarkovDatabase:
             raise
 
     def save_overall_frequencies(self, frequencies):
-        """Сохранение общих частот символов"""
+        #Сохранение общих частот символов
         try:
             # Очищаем таблицу
             self.cursor.execute('TRUNCATE TABLE overall_frequencies RESTART IDENTITY')
@@ -92,7 +92,7 @@ class MarkovDatabase:
             raise
 
     def save_markov_frequencies(self, n, frequencies):
-        """Сохранение частот для n-грамм с оптимизацией для больших объемов"""
+        # Сохранение частот для n-грамм с оптимизацией для больших объемов
         try:
             table_name = f'markov_{n}'
 
@@ -124,7 +124,6 @@ class MarkovDatabase:
             raise
 
     def save_markov_frequencies_bulk(self, n, frequencies):
-        """Альтернативный метод с COPY для максимальной производительности"""
         try:
             table_name = f'markov_{n}'
 
@@ -163,7 +162,7 @@ class MarkovDatabase:
             raise
 
     def get_overall_probabilities(self):
-        """Получение общих вероятностей символов"""
+        # Получение общих вероятностей символов
         try:
             self.cursor.execute('SELECT symbol, frequency FROM overall_frequencies')
             rows = self.cursor.fetchall()
@@ -180,7 +179,7 @@ class MarkovDatabase:
             return {}
 
     def get_markov_probabilities(self, n, context):
-        """Получение условных вероятностей для заданного контекста"""
+        # Получение условных вероятностей для заданного контекста
         try:
             table_name = f'markov_{n}'
             self.cursor.execute(
@@ -205,7 +204,7 @@ class MarkovDatabase:
             return {}
 
     def get_database_stats(self):
-        """Получение статистики по базе данных"""
+        #Получение статистики по базе данных
         stats = {}
         try:
             # Размер базы данных
@@ -228,7 +227,6 @@ class MarkovDatabase:
         return stats
 
     def close(self):
-        """Закрытие соединения с базой данных"""
         if self.conn:
             self.cursor.close()
             self.conn.close()
